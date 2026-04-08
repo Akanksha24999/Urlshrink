@@ -2,7 +2,7 @@ import random
 import sys
 import string
 from f22.models import Post
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import get_object_or_404
 
 class ShortenURL:
 	_charmap = '123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTVWXYZ'

@@ -21,12 +21,15 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5@-im85ne!*!xuoc6@0__1luno#cxvsphjthwvk68girc*022e'
+# SECURITY WARNING: keep the secret key used in production secret! 
+# Loaded from Kubernetes Secret
+SECRET_KEY = os.environ.get('SECRET_KEY', '5@-im85ne!*!xuoc6@0__1luno#cxvsphjthwvk68girc*022e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
-ALLOWED_HOSTS = ['*']
+# Load DEBUG from environment variable
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 
 # Application definition
@@ -112,7 +115,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-DEBUG = False
 
 try:
     from .local_settings import *
@@ -121,8 +123,8 @@ except ImportError:
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-DEBUG = False
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 try:
    from .local_settings import *

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-config
+data:
+  DEBUG: "True"
+  ALLOWED_HOSTS: "*.eks.amazonaws.com,localhost,127.0.0.1"
