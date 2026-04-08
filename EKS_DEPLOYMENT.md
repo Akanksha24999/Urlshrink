@@ -99,6 +99,17 @@ kubectl get service urlshrink-service -n urlshrink
 
 Visit the `EXTERNAL-IP` or hostname in your browser at `http://<EXTERNAL-IP>`
 
+## Setting up Monitoring
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+kubectl create namespace monitoring
+helm install kube-stack prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --set prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues=false \
+  --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false
+```
+
 ## Useful Commands
 
 ```bash

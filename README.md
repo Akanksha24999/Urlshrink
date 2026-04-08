@@ -1,19 +1,38 @@
-# Urlshrink
-Webapp that shrinks url's just like bit.ly
-Approach Used:-
-First the user enters long url in the textfild. This address is stored in the Database with integer ID which is unique
-for every record. The id is randomly generated 6-9 digit integer.
-Then this id is taken and is coverted to 64 base character string(a-z,A-Z,0-9). This conversion creates the short url
-which user can use to navigate to the original url.
-When the user enters the short url in the text field then this short url is converted back to the integer id.
-This integer id is queried in the database to find out the Original Url and then user is redirected to the original url.
+# Urlshrink - DevOps & Cloud Infrastructure
 
-Why this approach is best:-
-This approach is best because it uses bijective function for conversion betweeen id and string. This easily creates a short url
-from given id. Bijective function is reliable as it can not give wrong coversions. The url created are short no matter how much the
-length of original url is. It is fast approach as databse used is nosql that stores key value pair and queries fast and conversion
-also takes very less time.
+This project implements a cloud-native deployment of a Django-based URL shortener, focusing on high availability, scalability, and automated infrastructure management.
 
+## Technology Stack
 
+*   **Application**: Django (Python)
+*   **Containerization**: Docker
+*   **Orchestration**: Amazon EKS (Kubernetes)
+*   **Container Registry**: Amazon ECR
+*   **Monitoring**: Prometheus & Grafana (via Helm)
+*   **Infrastructure Management**: `eksctl`, `kubectl`, `helm`
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+## DevOps Implementation Details
+
+### 1. Orchestration & Scalability
+The application is deployed on **Amazon EKS**, utilizing Kubernetes for automated scaling and self-healing. The deployment uses a replica-based strategy to ensure high availability across the cluster.
+
+### 2. Configuration & Secret Management
+Security is prioritized by decoupling configuration from code:
+*   **Kubernetes Secrets**: Used to manage the Django `SECRET_KEY` and ECR pull credentials.
+*   **Environment Variables**: Dynamic configuration for `DEBUG` mode and `ALLOWED_HOSTS`.
+
+### 3. Networking & Load Balancing
+*   **Service Type**: `LoadBalancer` exposes the application to the internet via an AWS Classic/Network Load Balancer.
+*   **Port Mapping**: External traffic on port 80 is routed to the Django container on port 8000.
+
+### 4. Observability & Monitoring
+Integrated monitoring using the **Kube-Prometheus-Stack**:
+*   **Prometheus**: Collects metrics from the cluster and application pods.
+*   **Grafana**: Provides visualization dashboards for resource utilization and system health.
+*   **ServiceMonitors**: Configured to automatically discover and scrape application metrics.
+
+### 5. Infrastructure as Code (IaC)
+Infrastructure provisioning is streamlined using `eksctl` with configuration files, ensuring that the EKS cluster setup is repeatable and consistent across environments.
+
+[!Infrastructure Status](https://aws.amazon.com/eks/)
+[!Containerized](https://www.docker.com/)
